@@ -6,20 +6,20 @@ with urllib.request.urlopen("http://ddragon.leagueoflegends.com/cdn/10.25.1/data
     champion_data = json.loads(url.read().decode())
 
 
-def request_summoner_data(summoner_name, API_key):
-    URL = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summoner_name + "?api_key=" + API_key
+def request_summoner_data(summoner_name, RIOT_API_KEY):
+    URL = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summoner_name + "?api_key=" + RIOT_API_KEY
     response = requests.get(URL)
     return response.json()
 
 
-def request_ranked_data(ID, API_key):
-    URL = "https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + ID + "?api_key=" + API_key
+def request_ranked_data(ID, RIOT_API_KEY):
+    URL = "https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + ID + "?api_key=" + RIOT_API_KEY
     response = requests.get(URL)
     return response.json()
 
 
-def request_top_champs(ID, API_key):
-    URL = "https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + ID + "?api_key=" + API_key
+def request_top_champs(ID, RIOT_API_KEY):
+    URL = "https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + ID + "?api_key=" + RIOT_API_KEY
     response = requests.get(URL)
     return response.json()
 
@@ -32,8 +32,7 @@ def id_to_champ(champ_ID):
                     return i
 
 
-def request_live_match(ID, API_key):
-    URL = "https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + ID + "?api_key=" + API_key
+def request_live_match(ID, RIOT_API_KEY):
+    URL = "https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + ID + "?api_key=" + RIOT_API_KEY
     response = requests.get(URL)
     return response.json()
-    

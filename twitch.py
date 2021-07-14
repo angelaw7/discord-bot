@@ -4,22 +4,22 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-CLIENT_ID = os.getenv("CLIENT_ID")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
+TWITCH_CLIENT_SECRET = os.getenv("TWITCH_CLIENT_SECRET")
 twitch_app_token_json = {}
 twitch_user = ''
 image_priority = 'Preview'
 stream_api_url = "https://api.twitch.tv/helix/streams"
 stream_url = "https://www.twitch.tv/" + twitch_user.lower()
-DISCORD_URL = os.getenv("DISCORD_URL")
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 discord_message = ''
 discord_description = ''
 
 
 def authorize():
     token_params = {
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
+        'client_id': TWITCH_CLIENT_ID,
+        'client_secret': TWITCH_CLIENT_SECRET,
         'grant_type': 'client_credentials',
     }
     app_token_request = requests.post('https://id.twitch.tv/oauth2/token', params=token_params)
@@ -35,7 +35,7 @@ def main(streamer):
 
     while len(twitch_json['data']) == 0:
         twitch_headers = {
-            'Client-ID': CLIENT_ID,
+            'Client-ID': TWITCH_CLIENT_ID,
             'Authorization': 'Bearer ' + twitch_app_token_json['access_token'],
         }
         twitch_params = {'user_login': twitch_user.lower()}
@@ -151,7 +151,7 @@ def main(streamer):
 
             status_code = 0
             while status_code != 204:
-                discord_request = requests.post(DISCORD_URL, json=discord_payload)
+                discord_request = requests.post(DISCORD_WEBHOOK_URL, json=discord_payload)
                 status_code = discord_request.status_code
 
                 if discord_request.status_code == 204:
@@ -164,7 +164,7 @@ def main(streamer):
             discord_payload = {
               "content": 'Stream not live :<',
             }
-            discord_request = requests.post(DISCORD_URL, json=discord_payload)
+            discord_request = requests.post(DISCORD_WEBHOOK_URL, json=discord_payload)
             status_code = discord_request.status_code
 
             return

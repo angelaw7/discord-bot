@@ -121,10 +121,10 @@ async def sa(ctx, *args):
 # Searches a player's ranked stats and top played champions in League
 @bot.command()
 async def sr(ctx, summoner_name, help="Enter summoner name"):
-    summoner_ID_json = request_summoner_data(summoner_name, API_key)
+    summoner_ID_json = request_summoner_data(summoner_name, RIOT_API_KEY)
 
     ID = str(summoner_ID_json["id"])
-    ranked_data_json = request_ranked_data(ID, API_key)
+    ranked_data_json = request_ranked_data(ID, RIOT_API_KEY)
 
     summoner_name_formatted = ranked_data_json[0]["summonerName"]
 
@@ -147,7 +147,7 @@ async def sr(ctx, summoner_name, help="Enter summoner name"):
         None
 
     # Top 3 most played champs
-    mastery_points_json = request_top_champs(ID, API_key)
+    mastery_points_json = request_top_champs(ID, RIOT_API_KEY)
     top_champs = {}
     for i in range(3):
         champ_ID = mastery_points_json[i]["championId"]
@@ -228,5 +228,5 @@ async def stream(ctx, streamer):
     twitch.main(streamer)
 
 
-API_key = os.getenv("API_key")
-bot.run(os.getenv('TOKEN'))
+RIOT_API_KEY = os.getenv("RIOT_API_KEY")
+bot.run(os.getenv('DISCORD_TOKEN'))
